@@ -1,0 +1,24 @@
+#!/bin/sh
+
+set -e
+
+case "$1" in
+    configure)
+        if [ "$2" = "" ] || [ "$2" = "0" ]; then
+            FIRSTTIMEINSTALL=1
+        fi
+
+        if [ "$FIRSTTIMEINSTALL" = "1" ]; then
+            useradd -r jackrabbit
+            chmod a+x /etc/init.d/@PACKAGENAME@
+            update-rc.d jackrabbit-standalone defaults
+            mkdir /var/lib/jackrabbit-standalone/jackrabbit
+            chown jackrabbit /var/lib/jackrabbit-standalone/jackrabbit
+        fi
+
+        chown jackrabbit /var/run/jackrabbit-standalone
+
+        echo "Installation of @PACKAGENAME@ finished !"
+        /etc/init.d/@PACKAGENAME@ restart
+    ;;
+esac

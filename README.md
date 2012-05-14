@@ -1,2 +1,0 @@
-jackrabbit-standalone-debian
-============================

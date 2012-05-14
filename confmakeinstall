@@ -1,0 +1,6 @@
+cd bin
+./jack download
+cd ..
+packaging/configure
+make
+cp /tmp/jackrabbit-standalone/jackrabbit-standalone_2.4.1-1.deb .

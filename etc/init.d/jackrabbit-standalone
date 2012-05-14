@@ -1,0 +1,74 @@
+#! /bin/sh
+#
+# -----------------------------------
+# Initscript for the ...
+# -----------------------------------
+#
+# This controls the ...
+#
+# Author:	Jerome Louvel .
+#
+# Version:	@(#)daemon  1.0  16-Dec-2005  ...@...
+#
+
+set -e
+
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+DESC="Jackrabbit Daemon"
+NAME=jackrabbit-standalone
+
+### PLEASE EDIT THESE VALUES FOR YOUR SETUP
+# Directory in which jackrabbit will store local data, must be writeable
+BASEDIR=/var/lib/$NAME
+
+###
+
+USER="jackrabbit"
+
+DAEMON="/var/lib/jackrabbit-standalone/bin/jack"
+SCRIPTNAME=/etc/init.d/$NAME
+
+# Gracefully exit if the package has been removed.
+test -x /usr/bin/java || exit 0
+
+# ---------------------------------------
+# Function that starts the daemon/service
+# ---------------------------------------
+d_start()
+{
+su $USER -c "$DAEMON start "
+}
+
+# --------------------------------------
+# Function that stops the daemon/service
+# --------------------------------------
+d_stop()
+{
+su $USER -c "$DAEMON stop "
+}
+
+case "$1" in
+start)
+echo -n "Starting $DESC: $NAME"
+d_start
+echo "."
+;;
+stop)
+echo -n "Stopping $DESC: $NAME"
+d_stop
+echo "."
+;;
+restart|force-reload)
+echo -n "Restarting $DESC: $NAME"
+d_stop
+sleep 1
+d_start
+echo "."
+;;
+*)
+echo "Usage: $SCRIPTNAME {start|stop|restart|force-reload}" >&2
+exit 1
+;;
+esac
+
+exit 0
